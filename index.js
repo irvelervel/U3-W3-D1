@@ -76,3 +76,64 @@ sayHello('Mariangela', 'Buon pomeriggio'); // 'Buon pomeriggio Mariangela'
 sayHello('Stefano'); // 'Ciao Stefano'
 // con il '?' indichiamo un parametro come OPZIONALE (TS ci aggiungerà il tipo "undefined")
 // i parametri opzionali vanno definiti sempre in FONDO alla lista dei parametri!
+// TYPE UNION
+// TS permette di creare una UNIONE di diversi tipi al fine di descrivere meglio
+// la tipizzazione di alcune porzione di codice
+var myVariable = 'Ciao';
+myVariable = 100;
+var anotherVariable = '50';
+// ARRAY
+var arrayOfNames = ['Stefano', 'Giangiorgio', 'Antimo', 'Claudio']; // string[]
+// maniera alternativa
+var arrayOfCars = ['Ritmo', 'Punto', 'Polo'];
+arrayOfNames.push('100');
+arrayOfNames.pop().length; // il ! serve a dire a TS che in questo caso pop() NON
+// tornerà undefined -> che significa che arrayOfNames NON è vuoto!
+var mixedArray = ['Ciao', 1];
+// modi alternativi:
+// const mixedArray: MyCustomType[] = ['Ciao', 1]
+// const mixedArray: Array<string | number> = ['Ciao', 1]
+// const mixedArray: Array<MyCustomType> = ['Ciao', 1]
+mixedArray.push(100);
+mixedArray.push('Ciaone');
+// TUPLE
+// Una tupla è una specie di array nel quale viene definito il TIPO per ogni posizione!
+// array normale:
+var myArr = [10, 'ciao', 'buongiorno', 100];
+var myTuple = ['ciao', 'stefano', 10, 100];
+var peppe = 'Giuseppe';
+myTuple.push(peppe);
+// myTuple[4] // come definire un quinto elemento in una tupla? Stefano non lo sa :(
+// Rufat sì!
+var myTuple2 = [
+    'uno',
+    'due',
+    3,
+    4,
+    'ciao',
+];
+// myTuple2.push(100)
+// myTuple2[5] // per lui è una stringa :(
+// OGGETTI
+// la definizione degli oggetti in TS è la stessa di JS, la TYPE INFERENCE viene molto
+// in aiuto!
+var specialDog = {
+    name: 'Pluto',
+    brand: 'Disney',
+    age: 5,
+    canFly: false,
+    furColor: 'Blonde',
+    species: {
+        name: 'Dog',
+        breed: 'Golden Retriever',
+    },
+    abilities: ['Bark', 'Eat', 'Play', 'Sleep'],
+    bark: function () {
+        return 'BAU';
+    },
+};
+// ritorno un array con tutte le lunghezze delle stringhe delle abilities di specialDog
+var arrayOfLengths = specialDog.abilities.map(function (ab) {
+    return ab.length;
+});
+// specialDog.lastName

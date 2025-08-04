@@ -93,3 +93,78 @@ sayHello('Mariangela', 'Buon pomeriggio') // 'Buon pomeriggio Mariangela'
 sayHello('Stefano') // 'Ciao Stefano'
 // con il '?' indichiamo un parametro come OPZIONALE (TS ci aggiungerà il tipo "undefined")
 // i parametri opzionali vanno definiti sempre in FONDO alla lista dei parametri!
+
+// TYPE UNION
+// TS permette di creare una UNIONE di diversi tipi al fine di descrivere meglio
+// la tipizzazione di alcune porzione di codice
+let myVariable: string | number | boolean = 'Ciao'
+myVariable = 100
+
+// TYPE ALIAS
+type MyCustomType = string | number
+let anotherVariable: MyCustomType = '50'
+
+// ARRAY
+const arrayOfNames = ['Stefano', 'Giangiorgio', 'Antimo', 'Claudio'] // string[]
+// maniera alternativa
+const arrayOfCars: Array<string> = ['Ritmo', 'Punto', 'Polo']
+
+arrayOfNames.push('100')
+arrayOfNames.pop()!.length // il ! serve a dire a TS che in questo caso pop() NON
+// tornerà undefined -> che significa che arrayOfNames NON è vuoto!
+
+const mixedArray: (string | number)[] = ['Ciao', 1]
+// modi alternativi:
+// const mixedArray: MyCustomType[] = ['Ciao', 1]
+// const mixedArray: Array<string | number> = ['Ciao', 1]
+// const mixedArray: Array<MyCustomType> = ['Ciao', 1]
+mixedArray.push(100)
+mixedArray.push('Ciaone')
+
+// TUPLE
+// Una tupla è una specie di array nel quale viene definito il TIPO per ogni posizione!
+
+// array normale:
+const myArr: (string | number)[] = [10, 'ciao', 'buongiorno', 100]
+
+const myTuple: [string, string, number, number] = ['ciao', 'stefano', 10, 100]
+const peppe: string = 'Giuseppe'
+myTuple.push(peppe)
+// myTuple[4] // come definire un quinto elemento in una tupla? Stefano non lo sa :(
+// Rufat sì!
+let myTuple2: [string, string, number, number, ...string[]] = [
+  'uno',
+  'due',
+  3,
+  4,
+  'ciao',
+]
+// myTuple2.push(100)
+// myTuple2[5] // per lui è una stringa :(
+
+// OGGETTI
+// la definizione degli oggetti in TS è la stessa di JS, la TYPE INFERENCE viene molto
+// in aiuto!
+
+const specialDog = {
+  name: 'Pluto',
+  brand: 'Disney',
+  age: 5,
+  canFly: false,
+  furColor: 'Blonde',
+  species: {
+    name: 'Dog',
+    breed: 'Golden Retriever',
+  },
+  abilities: ['Bark', 'Eat', 'Play', 'Sleep'],
+  bark: () => {
+    return 'BAU'
+  },
+}
+
+// ritorno un array con tutte le lunghezze delle stringhe delle abilities di specialDog
+const arrayOfLengths = specialDog.abilities.map((ab) => {
+  return ab.length
+})
+
+// specialDog.lastName
