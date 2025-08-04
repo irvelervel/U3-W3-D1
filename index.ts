@@ -167,4 +167,125 @@ const arrayOfLengths = specialDog.abilities.map((ab) => {
   return ab.length
 })
 
-// specialDog.lastName
+// specialDog.lastName // <-- errore, perchè la proprietà non esiste!
+
+// quando c'è la necessità di modellare un dato, ovvero di tipizzarlo secondo
+// una struttura possiamo creare noi il tipo per un oggetto.
+
+const teacher = {
+  firstName: 'Stefano',
+  lastName: 'Casasola',
+  modules: ['U1', 'U2', 'U3'],
+}
+
+// come facciamo a creare un TIPO per un oggetto fatto così?
+
+type Book = {
+  id: string
+  price: string
+  title: string
+  description: string
+  imageUrl: string
+}
+
+fetch('https://striveschool-api.herokuapp.com/food-books')
+  .then((response) => {
+    if (response.ok) {
+      return response.json()
+    } else {
+      throw new Error('errore fetch')
+    }
+  })
+  .then((data: Book[]) => {
+    // in questo caso TS non ha idea di cosa sia "data", perchè ogni API
+    // ritorna nel proprio JSON informazioni diverse!
+    console.log(data[0].title)
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+
+// però, molto spesso per modellare oggetti invece del TYPE ALIAS si utilizza
+// una INTERFACCIA
+interface EpiTeacher {
+  firstName: string
+  lastName: string
+  modules: string[]
+}
+
+const docente1: EpiTeacher = {
+  firstName: 'Mario',
+  lastName: 'Rossi',
+  modules: ['U4'],
+}
+
+const docente2: EpiTeacher = {
+  firstName: 'Luigi',
+  lastName: 'Rossi',
+  modules: ['U5'],
+}
+
+const arrayOfDocenti: EpiTeacher[] = []
+arrayOfDocenti.push(docente1)
+arrayOfDocenti.push(docente2)
+
+arrayOfDocenti.forEach((d) => {
+  console.log(d.firstName) // 'Mario' 'Luigi'
+})
+
+// al pari delle classi, anche le interfacce si possono "estendere" per partire
+// da un punto di partenza già definito in precedenza...
+interface FrontendTeacher extends EpiTeacher {
+  // FrontendTeacher di base ha già 3 proprietà: firstName, lastName e modules
+  // e oltre a queste 3 aggiungiamo...
+  DOMyoe: number
+}
+
+const zuck: FrontendTeacher = {
+  firstName: 'Mark',
+  lastName: 'Zuckerberg',
+  modules: [],
+  DOMyoe: 0,
+}
+
+// GENERICS
+// Un GENERIC è un TIPO che viene passato come ARGOMENTO per un'INTERFACCIA.
+// Vengono comodi quando si vuole rendere un'interfaccia più VERSATILE, più RIUTILIZZABILE.
+
+interface Address<A> {
+  street: string
+  civicNumber: number
+  zipCode: number
+  city: string
+  area: A // A è parametro di TIPO fornito all'interfaccia Address.
+  // Address NON SA cosa sarà A... sa solo che diventerà il TIPO per la proprietà "area"
+}
+
+const italianAddress: Address<string> = {
+  street: 'Via Roma',
+  civicNumber: 100,
+  zipCode: 34170,
+  city: 'Gorizia',
+  area: 'FVG',
+}
+
+// 300-332 Hale Alley, Bellefonte, PA 16823, Stati Uniti
+
+interface AmericanArea {
+  state: string
+  country: string
+}
+
+const americanAddress: Address<AmericanArea> = {
+  street: 'Hale Alley',
+  civicNumber: 300,
+  zipCode: 16823,
+  city: 'Bellefonte',
+  area: {
+    state: 'PA',
+    country: 'USA',
+  },
+}
+
+// fornendo all'inteface Address il TIPO per la proprietà "area" in questo particolare
+// utilizzo la riesco a piegare a più circostanze, rendendola più versatile e riutilizzabile.

@@ -136,4 +136,69 @@ var specialDog = {
 var arrayOfLengths = specialDog.abilities.map(function (ab) {
     return ab.length;
 });
-// specialDog.lastName
+// specialDog.lastName // <-- errore, perchè la proprietà non esiste!
+// quando c'è la necessità di modellare un dato, ovvero di tipizzarlo secondo
+// una struttura possiamo creare noi il tipo per un oggetto.
+var teacher = {
+    firstName: 'Stefano',
+    lastName: 'Casasola',
+    modules: ['U1', 'U2', 'U3'],
+};
+fetch('https://striveschool-api.herokuapp.com/food-books')
+    .then(function (response) {
+    if (response.ok) {
+        return response.json();
+    }
+    else {
+        throw new Error('errore fetch');
+    }
+})
+    .then(function (data) {
+    // in questo caso TS non ha idea di cosa sia "data", perchè ogni API
+    // ritorna nel proprio JSON informazioni diverse!
+    console.log(data[0].title);
+})
+    .catch(function (err) {
+    console.log(err);
+});
+var docente1 = {
+    firstName: 'Mario',
+    lastName: 'Rossi',
+    modules: ['U4'],
+};
+var docente2 = {
+    firstName: 'Luigi',
+    lastName: 'Rossi',
+    modules: ['U5'],
+};
+var arrayOfDocenti = [];
+arrayOfDocenti.push(docente1);
+arrayOfDocenti.push(docente2);
+arrayOfDocenti.forEach(function (d) {
+    console.log(d.firstName); // 'Mario' 'Luigi'
+});
+var zuck = {
+    firstName: 'Mark',
+    lastName: 'Zuckerberg',
+    modules: [],
+    DOMyoe: 0,
+};
+var italianAddress = {
+    street: 'Via Roma',
+    civicNumber: 100,
+    zipCode: 34170,
+    city: 'Gorizia',
+    area: 'FVG',
+};
+var americanAddress = {
+    street: 'Hale Alley',
+    civicNumber: 300,
+    zipCode: 16823,
+    city: 'Bellefonte',
+    area: {
+        state: 'PA',
+        country: 'USA',
+    },
+};
+// fornendo all'inteface Address il TIPO per la proprietà "area" in questo particolare
+// utilizzo la riesco a piegare a più circostanze, rendendola più versatile e riutilizzabile.
